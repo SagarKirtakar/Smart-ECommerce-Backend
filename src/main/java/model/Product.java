@@ -20,6 +20,15 @@ public class Product {
         this.stock = stock;
     }
 
+    // For inserting new products
+    public Product(String name, String category,
+                   double price, int stock) {
+        this.name = name;
+        this.category = category;
+        this.price = price;
+        this.stock = stock;
+    }
+
     public double getPrice() {
         return price;
     }
