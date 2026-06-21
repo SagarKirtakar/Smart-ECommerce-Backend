@@ -44,15 +44,25 @@ public class OrderDAO {
                 totalAmount += price * quantity;
             }
 
+            // Check if cart is empty
+            if (totalAmount == 0) {
+
+                System.out.println("Cart is empty! Cannot place order.");
+
+                connection.rollback();
+                return;
+            }
+
 
             // Step 2: Insert into orders table
             String orderQuery =
-                    "INSERT INTO orders(customer_id, total_amount) VALUES(?, ?)";
+                    "INSERT INTO orders(customer_id, total_amount) VALUES (?, ?)";
 
             PreparedStatement orderPs =
                     connection.prepareStatement(
                             orderQuery,
-                            Statement.RETURN_GENERATED_KEYS);
+                            Statement.RETURN_GENERATED_KEYS
+                    );
 
             orderPs.setInt(1, customerId);
             orderPs.setDouble(2, totalAmount);
@@ -63,19 +73,20 @@ public class OrderDAO {
             // Step 3: Get generated order_id
             ResultSet generatedKeys = orderPs.getGeneratedKeys();
 
-            int orderId = 0;
+            if (!generatedKeys.next()) {
 
-            if (generatedKeys.next()) {
-
-                orderId = generatedKeys.getInt(1);
+                throw new SQLException("Failed to generate Order ID.");
             }
+
+            int orderId = generatedKeys.getInt(1);
 
 
             // Step 4: Get cart items
             String cartQuery = """
                 SELECT c.product_id,
                        c.quantity,
-                       p.price
+                       p.price,
+                       p.stock
                 FROM cart c
                 JOIN product p
                 ON c.product_id = p.product_id
@@ -90,27 +101,51 @@ public class OrderDAO {
             ResultSet cartRs = cartPs.executeQuery();
 
 
-            // Step 5: Insert into order_items and update stock
+            // Prepare statements once
+            String itemQuery = """
+                INSERT INTO order_items(
+                        order_id,
+                        product_id,
+                        quantity,
+                        price)
+                VALUES (?, ?, ?, ?)
+                """;
+
+            PreparedStatement itemPs =
+                    connection.prepareStatement(itemQuery);
+
+
+            String stockQuery = """
+                UPDATE product
+                SET stock = stock - ?
+                WHERE product_id = ?
+                """;
+
+            PreparedStatement stockPs =
+                    connection.prepareStatement(stockQuery);
+
+
+            // Step 5: Insert order items and update stock
             while (cartRs.next()) {
 
                 int productId = cartRs.getInt("product_id");
                 int quantity = cartRs.getInt("quantity");
                 double price = cartRs.getDouble("price");
+                int currentStock = cartRs.getInt("stock");
+
+
+                // Check stock availability
+                if (quantity > currentStock) {
+
+                    System.out.println(
+                            "Insufficient stock for Product ID : " + productId);
+
+                    connection.rollback();
+                    return;
+                }
 
 
                 // Insert into order_items
-                String itemQuery = """
-                    INSERT INTO order_items(
-                            order_id,
-                            product_id,
-                            quantity,
-                            price)
-                    VALUES (?, ?, ?, ?)
-                    """;
-
-                PreparedStatement itemPs =
-                        connection.prepareStatement(itemQuery);
-
                 itemPs.setInt(1, orderId);
                 itemPs.setInt(2, productId);
                 itemPs.setInt(3, quantity);
@@ -119,16 +154,7 @@ public class OrderDAO {
                 itemPs.executeUpdate();
 
 
-                // Update product stock
-                String stockQuery = """
-                    UPDATE product
-                    SET stock = stock - ?
-                    WHERE product_id = ?
-                    """;
-
-                PreparedStatement stockPs =
-                        connection.prepareStatement(stockQuery);
-
+                // Update stock
                 stockPs.setInt(1, quantity);
                 stockPs.setInt(2, productId);
 

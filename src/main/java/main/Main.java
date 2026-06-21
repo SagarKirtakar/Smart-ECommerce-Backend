@@ -1,7 +1,7 @@
 package main;
 
 import exception.ProductNotFoundException;
-import menu.ProductMenu;
+import menu.*;
 
 import java.util.Scanner;
 
@@ -12,6 +12,14 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         ProductMenu productMenu = new ProductMenu();
+
+        CustomerMenu customerMenu = new CustomerMenu();
+
+        CartMenu cartMenu = new CartMenu();
+
+        OrderMenu orderMenu = new OrderMenu();
+
+        AnalyticsMenu analyticsMenu = new AnalyticsMenu();
 
         while (true) {
 
@@ -34,20 +42,16 @@ public class Main {
                     productMenu.showMenu();
                     break;
 
-                case 2:
-                    System.out.println("Customer Module Coming Soon...");
+                case 2: customerMenu.showMenu();
                     break;
 
-                case 3:
-                    System.out.println("Cart Module Coming Soon...");
+                case 3: cartMenu.showMenu();
                     break;
 
-                case 4:
-                    System.out.println("Order Module Coming Soon...");
+                case 4: orderMenu.showMenu();
                     break;
 
-                case 5:
-                    System.out.println("Analytics Module Coming Soon...");
+                case 5: analyticsMenu.showMenu();
                     break;
 
                 case 6:

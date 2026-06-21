@@ -113,52 +113,28 @@ public class CustomerDAO {
 
 //-----------UPDATE CUSTOMER---------------------
 
-//public void updateCustomer(Customer customer) {
-//
-//    String query = """
-//            UPDATE customer
-//            SET name=?, email=?, phone=?
-//            WHERE customer_id=?
-//            """;
-//
-//    try (
-//            Connection connection = DBConnection.getConnection();
-//            PreparedStatement ps = connection.prepareStatement(query)
-//    ) {
-//
-//        ps.setString(1, customer.getName());
-//        ps.setString(2, customer.getEmail());
-//        ps.setString(3, customer.getPhone());
-//        ps.setInt(4, customer.getCustomerId());
-//
-//        int rows = ps.executeUpdate();
-//
-//        if (rows > 0) {
-//            System.out.println("Customer Updated Successfully!");
-//        } else {
-//            System.out.println("Customer Not Found!");
-//        }
-//
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//    }
+    public void updateCustomer(Customer customer) {
 
-    //---------DELETE CUSTOMER BY ID--------------------
-    public void deleteCustomer(int customerId) {
-
-        String query = "DELETE FROM customer WHERE customer_id=?";
+        String query = """
+                UPDATE customer
+                SET name=?, email=?, phone=?
+                WHERE customer_id=?
+                """;
 
         try (
                 Connection connection = DBConnection.getConnection();
                 PreparedStatement ps = connection.prepareStatement(query)
         ) {
 
-            ps.setInt(1, customerId);
+            ps.setString(1, customer.getName());
+            ps.setString(2, customer.getEmail());
+            ps.setString(3, customer.getPhone());
+            ps.setInt(4, customer.getCustomerId());
 
             int rows = ps.executeUpdate();
 
             if (rows > 0) {
-                System.out.println("Customer Deleted Successfully!");
+                System.out.println("Customer Updated Successfully!");
             } else {
                 System.out.println("Customer Not Found!");
             }
@@ -168,7 +144,29 @@ public class CustomerDAO {
         }
     }
 
+        //---------DELETE CUSTOMER BY ID--------------------
+        public void deleteCustomer ( int customerId){
 
+            String query = "DELETE FROM customer WHERE customer_id=?";
 
-}
+            try (
+                    Connection connection = DBConnection.getConnection();
+                    PreparedStatement ps = connection.prepareStatement(query)
+            ) {
+
+                ps.setInt(1, customerId);
+
+                int rows = ps.executeUpdate();
+
+                if (rows > 0) {
+                    System.out.println("Customer Deleted Successfully!");
+                } else {
+                    System.out.println("Customer Not Found!");
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
