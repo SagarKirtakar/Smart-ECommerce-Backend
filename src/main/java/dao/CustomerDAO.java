@@ -111,7 +111,7 @@ public class CustomerDAO {
 
     }
 
-//-----------UPDATE CUSTOMER---------------------
+    //-----------UPDATE CUSTOMER---------------------
 
     public void updateCustomer(Customer customer) {
 

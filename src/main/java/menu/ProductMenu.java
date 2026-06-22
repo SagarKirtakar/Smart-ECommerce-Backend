@@ -27,6 +27,7 @@ public class ProductMenu {
             System.out.print("Enter Choice : ");
 
             int choice = sc.nextInt();
+            sc.nextLine();
 
             switch (choice) {
 
@@ -62,10 +63,10 @@ public class ProductMenu {
     public void addProduct() {
 
         System.out.print("Enter Name : ");
-        String name = sc.next();
+        String name = sc.nextLine();
 
         System.out.print("Enter Category : ");
-        String category = sc.next();
+        String category = sc.nextLine();
 
         System.out.print("Enter Price : ");
         double price = sc.nextDouble();

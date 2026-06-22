@@ -13,11 +13,15 @@ public class ProductNotFoundException extends Exception {
         super(message);
     }
 
+    //------------GET PRODUC BY ID---------------
+
     public Product getProductById(int productId)
             throws ProductNotFoundException {
 
         String query =
                 "SELECT * FROM product WHERE product_id=?";
+
+        //---------try with resourcse-------------
 
         try (
                 Connection connection = DBConnection.getConnection();

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ProductDAO {
 
-    // ADD PRODUCT OPERATION
+    //-----------INSERT PRODUCT OPERATION-------------
 
     public void addProduct(Product product) {
 
@@ -40,7 +40,7 @@ public class ProductDAO {
         }
     }
 
-    // GET ALL PRODUCTS
+    //-----------GET ALL PRODUCTS------------------
 
     public List<Product> getAllProducts() {
 
@@ -74,7 +74,7 @@ public class ProductDAO {
         return products;
     }
 
-    // GET PRODUCT BY ID
+    //---------------GET PRODUCT BY ID---------------
 
     public Product getProductById(int productId)
             throws ProductNotFoundException {
@@ -110,7 +110,7 @@ public class ProductDAO {
                 "Product with ID " + productId + " not found.");
     }
 
-    // UPDATE PRODUCT
+    //------------UPDATE PRODUCT-------------------
 
     public void updateProduct(Product product) {
 
@@ -144,7 +144,7 @@ public class ProductDAO {
         }
     }
 
-    // DELETE PRODUCT BY ID
+    //-------------DELETE PRODUCT BY ID--------------
 
     public void deleteProduct(int productId) {
 
@@ -171,7 +171,7 @@ public class ProductDAO {
 
     }
 
-    //-----------LOW STOCK ALERT----------
+    //------------LOW STOCK ALERT-------------
     public void getLowStockProducts() {
 
         String query = """
@@ -202,8 +202,5 @@ public class ProductDAO {
             e.printStackTrace();
         }
     }
-
-    //------COLLECTION FRAMEWORK + SORTING PRODUCTS-----------
-
 
 }

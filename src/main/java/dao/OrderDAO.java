@@ -255,6 +255,7 @@ public class OrderDAO {
     }
 
     //---------GET ORDER ITEMS DETAILS------------
+
     public void getOrderItems(int orderId) {
 
         String query = """
@@ -296,7 +297,8 @@ public class OrderDAO {
         }
     }
 
-    //-------SEARCH ORDER BY ID----------
+    //------------SEARCH ORDER BY ID--------------
+
     public void searchOrder(int orderId) {
 
         String query =
@@ -334,7 +336,7 @@ public class OrderDAO {
         }
     }
 
-    //-------TOTAL SALES REPORT------------
+    //------------TOTAL SALES REPORT---------------
     public void getTotalSales() {
 
         String query =

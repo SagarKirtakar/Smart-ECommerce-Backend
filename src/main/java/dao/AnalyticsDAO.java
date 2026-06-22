@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 
 public class AnalyticsDAO {
 
+    //-----------GET TOTAL REVENUE----------------
+
     public void getTotalRevenue() {
 
         String query =

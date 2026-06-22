@@ -35,6 +35,7 @@ public class Main {
             System.out.print("Enter Choice : ");
 
             int choice = sc.nextInt();
+            sc.nextLine();
 
             switch (choice) {
 

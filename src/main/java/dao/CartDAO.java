@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CartDAO {
 
-    //--------INSERT OPERATION----------------------
+    //--------INSERT CART OPERATION----------------------
 
     public void addToCart(CartItem cartItem) {
 
@@ -85,6 +85,7 @@ public class CartDAO {
     }
 
     //----------CALCULATE TOTAL AMOUNT-------------
+
     public double calculateTotal(int customerId) {
 
         double total = 0;
@@ -122,6 +123,7 @@ public class CartDAO {
     }
 
     //-----------REMOVE CART OPERATION-----------
+
     public void removeFromCart(int cartId) {
 
         String query = "DELETE FROM cart WHERE cart_id=?";
